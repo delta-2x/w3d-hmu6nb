@@ -4,8 +4,10 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Wohnung 3D">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="apple-touch-icon" href="icon-180.png">
+<meta http-equiv="Cache-Control" content="no-cache">
+<script>window.APP_VERSION='202611162015';(function(){var busy=false;function check(){if(busy||document.visibilityState!=='visible')return;if(window.WOHNUNG&&window.WOHNUNG.vr&&window.WOHNUNG.vr.state&&window.WOHNUNG.vr.state.on)return;busy=true;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){busy=false;if(j&&j.v&&j.v!==window.APP_VERSION&&new URLSearchParams(location.search).get('v')!==j.v){location.replace(location.pathname+'?v='+j.v)}}).catch(function(){busy=false})}document.addEventListener('visibilitychange',check);window.addEventListener('pageshow',check);window.addEventListener('focus',check);setTimeout(check,1500)})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Wohnung 3D</title>
 <link rel="icon" href="data:,">
@@ -32,6 +34,7 @@
   --chip: #20252A; --accent: #D49A58; --accent-ink: #181B1E; --ok: #69B28A; --warn: #E2A15A; --bad: #E7766A;
   --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35); color-scheme: dark; }
 html, body { height: 100%; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body { background: var(--bg); color: var(--ink); font-family: var(--f-ui); font-size: 14px; margin: 0; overflow: hidden; }
 #app { position: fixed; inset: 0; display: grid; grid-template-columns: 1fr var(--panel-w); }
 #stage { position: relative; min-width: 0; min-height: 0; overflow: hidden; background: #cfd9e2; }
@@ -100,8 +103,15 @@ details[open] summary { margin-bottom: 4px; }
 #preview .box { background: var(--panel); color: var(--ink); border-radius: 10px; padding: 14px; max-width: min(1100px, 100%); display: flex; flex-direction: column; gap: 10px; box-shadow: var(--shadow); }
 #preview img { max-width: 100%; max-height: 70vh; border-radius: 6px; }
 #menuBtn { display: none; }
+#topbar { display: none; }
 @media (max-width: 760px) {
-  #app { grid-template-columns: 1fr; grid-template-rows: 1fr auto; }
+  #app { grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr) auto; }
+  #topbar { display: flex; align-items: center; gap: 8px; background: var(--panel); border-bottom: 1px solid var(--line); color: var(--ink);
+    padding: calc(10px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) 10px max(16px, env(safe-area-inset-left, 0px)); }
+  #topbar b { font-size: 16px; font-weight: 600; letter-spacing: -.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hud { top: 12px; }
+  .head h1 { display: none; }   /* Titel steht am Handy schon in der Kopfzeile */
+  #menuBtn { top: 12px !important; }
   #panel { border-left: 0; border-top: 1px solid var(--line); max-height: 48vh; }
   #panel.closed { max-height: 0; padding-block: 0; overflow: hidden; }
   .hud { right: calc(max(12px, env(safe-area-inset-right, 0px)) + 66px); flex-wrap: wrap; }
@@ -111,7 +121,7 @@ details[open] summary { margin-bottom: 4px; }
 @media (prefers-reduced-motion: reduce) { #north svg { transition: none; } }
 [hidden] { display: none !important; }
 /* Runde 10: VR-Brille – geteiltes Bild, Startseite, Punkt in der Mitte je Auge */
-body.vr-b #panel, body.vr-b .hud, body.vr-b #menuBtn { display: none !important; }
+body.vr-b #panel, body.vr-b .hud, body.vr-b #menuBtn, body.vr-b #topbar { display: none !important; }
 body.vr-b #app { grid-template-columns: 1fr !important; grid-template-rows: 1fr !important; }
 #vrB { position: fixed; inset: 0; z-index: 30; color: #fff; }
 .vrstart { position: absolute; inset: 0; background: rgba(14,16,18,.9); display: grid; place-items: center; padding: 16px; overflow: auto; }
@@ -129,6 +139,7 @@ body.vr-b #app { grid-template-columns: 1fr !important; grid-template-rows: 1fr 
 <script id="plan-bild" type="text/plain">data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wAALCAABAAEBAREA/8QAFAABAAAAAAAAAAAAAAAAAAAAA//EABQQAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQEAAD8AN//Z</script>
 
 <div id="app">
+  <header id="topbar"><b id="topTitle"></b></header>
   <div id="stage">
     <div id="loading">Modell wird aufgebaut …</div>
     <div class="hud"><div id="north" title="Norden"><svg viewBox="0 0 26 26" aria-hidden="true"><path d="M13 2 L18 16 L13 13 L8 16 Z" fill="#B23A2C"/><path d="M13 24 L18 16 L13 13 L8 16 Z" fill="#9AA3A9"/><text x="13" y="11.5" text-anchor="middle" font-size="6" font-family="IBM Plex Sans, sans-serif" fill="#fff" font-weight="600">N</text></svg></div><div class="tag" id="viewName">Isometrie Süd</div><div class="tag" id="varName"></div></div>
@@ -2160,7 +2171,7 @@ window.WOHNUNG = {
 
 // ---------------------------------------------------------------- VR-Brille (Runde 10, Fassung 2 – ohne zweites Gerät)
 // „VR starten" nimmt alles, was gerade eingestellt ist (Variante, Licht, Türen, Vorhang …). Geteiltes Bild für die Steck-VR-Brille,
-// Kopfdrehung über den Lagesensor, 2 s auf einen Punkt am Boden schauen = dorthin springen, Tippen = 1 Schritt. Kein Konto nötig.
+// Kopfdrehung über den Lagesensor, 2 s auf einen Punkt am Boden schauen = dorthin springen. Kein Konto nötig.
 const VR = { on: false, started: false, pos: new THREE.Vector3(), tgt: new THREE.Vector3(), q: new THREE.Quaternion(), devQ: null, yawOff: 0, startYaw: 0, gaze: null, shadowT: 0, wake: null };
 const vrCam = new THREE.PerspectiveCamera(80, 1, 0.05, 600);
 const stereo = new StereoEffect(renderer); stereo.setEyeSeparation(0.063);
@@ -2184,7 +2195,7 @@ function vrEnter() {
   if (VR.on) return; VR.on = true; VR.started = false; VR.devQ = null; VR.gaze = null; vrStartPose(); controls.enabled = false;
   renderer.shadowMap.autoUpdate = false; renderer.shadowMap.needsUpdate = true;
   document.body.classList.add('vr-b'); vrEl('vrB').hidden = false; vrEl('vrStart').hidden = false; vrEl('vrIn').hidden = true;
-  vrEl('vrBNote').textContent = 'Handy quer halten, starten, dann ins VR-Gestell stecken. Umschauen mit dem Kopf. Zum Gehen 2 Sekunden auf einen Punkt am Boden schauen – der Ring füllt sich, dann springst du hin. Tippen auf den Bildschirm (Taste der Brille) = 1 Schritt nach vorn.';
+  vrEl('vrBNote').textContent = 'Handy quer halten, starten, dann ins VR-Gestell stecken. Umschauen mit dem Kopf. Zum Gehen 2 Sekunden auf einen Punkt am Boden schauen – der Ring füllt sich, dann springst du hin.';
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5)); vrResize();
 }
 function vrExit(silent) {
@@ -2208,13 +2219,13 @@ async function vrStart() {
   if (note) toast(note, 5000);
   setTimeout(() => { if (VR.on && !VR.devQ) toast('Kein Lagesensor erkannt – umschauen durch Ziehen mit dem Finger.', 5000); }, 2500);
 }
-// Tippen = Schritt, Ziehen = umschauen (nur ohne Lagesensor)
+// Ziehen = umschauen (nur ohne Lagesensor, z. B. am Computer)
 let _pd = null;
 function vrPointer() {
   const c = vrEl('vrB');
   c.addEventListener('pointerdown', e => { if (!VR.started || e.target.closest('button')) return; _pd = { x: e.clientX, y: e.clientY, yaw: _dragYaw, pitch: _dragPitch, moved: false }; });
   c.addEventListener('pointermove', e => { if (!_pd) return; const dx = e.clientX - _pd.x, dy = e.clientY - _pd.y; if (Math.hypot(dx, dy) > 8) _pd.moved = true; if (_pd.moved && !VR.devQ) { _dragYaw = _pd.yaw + dx * 0.006; _dragPitch = Math.max(-1.3, Math.min(1.3, _pd.pitch + dy * 0.006)); } });
-  c.addEventListener('pointerup', () => { if (_pd && !_pd.moved) vrStep(0.5); _pd = null; });
+  c.addEventListener('pointerup', () => { _pd = null; });
 }
 function vrStep(d) {   // Schritt in Blickrichtung; durch Wände ja, aus Wohnung und Balkon hinaus nein
   const y = yawOf(VR.q), nx = VR.tgt.x - Math.sin(y) * d, nz = VR.tgt.z - Math.cos(y) * d;
@@ -2255,6 +2266,7 @@ new ResizeObserver(resize).observe(stage);
 await document.fonts.ready.catch(() => { });
 buildEnvironment(); buildFurniture(); buildFixtures(); buildLabels(); buildPlanOverlay(); buildTiles(); applyOpen(true);
 applyLight(); applyRaff(); applyVisibility(); buildUI(); vrInitUI(); resize();
+$('topTitle').textContent = document.querySelector('.head h1')?.textContent || '';
 setView(location.hash.slice(1) && D.views.some(v => v.id === location.hash.slice(1)) ? location.hash.slice(1) : 'iso-s', true);
 $('loading').remove();
 let lastT = performance.now();
