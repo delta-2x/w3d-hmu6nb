@@ -5,9 +5,10 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Wohnung 3D">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#FAFBFA">
 <link rel="apple-touch-icon" href="icon-180.png">
 <meta http-equiv="Cache-Control" content="no-cache">
-<script>window.APP_VERSION='202611162015';(function(){var busy=false;function check(){if(busy||document.visibilityState!=='visible')return;if(window.WOHNUNG&&window.WOHNUNG.vr&&window.WOHNUNG.vr.state&&window.WOHNUNG.vr.state.on)return;busy=true;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){busy=false;if(j&&j.v&&j.v!==window.APP_VERSION&&new URLSearchParams(location.search).get('v')!==j.v){location.replace(location.pathname+'?v='+j.v)}}).catch(function(){busy=false})}document.addEventListener('visibilitychange',check);window.addEventListener('pageshow',check);window.addEventListener('focus',check);setTimeout(check,1500)})();</script>
+<script>window.APP_VERSION='20261116203353';(function(){var busy=false;function check(){if(busy||document.visibilityState!=='visible')return;if(window.WOHNUNG&&window.WOHNUNG.vr&&window.WOHNUNG.vr.state&&window.WOHNUNG.vr.state.on)return;busy=true;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){busy=false;if(j&&j.v&&j.v!==window.APP_VERSION&&new URLSearchParams(location.search).get('v')!==j.v){location.replace(location.pathname+'?v='+j.v)}}).catch(function(){busy=false})}document.addEventListener('visibilitychange',check);window.addEventListener('pageshow',check);window.addEventListener('focus',check);setTimeout(check,1500)})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Wohnung 3D</title>
 <link rel="icon" href="data:,">
@@ -107,12 +108,12 @@ details[open] summary { margin-bottom: 4px; }
 @media (max-width: 760px) {
   #app { grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr) auto; }
   #topbar { display: flex; align-items: center; gap: 8px; background: var(--panel); border-bottom: 1px solid var(--line); color: var(--ink);
-    padding: calc(10px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) 10px max(16px, env(safe-area-inset-left, 0px)); }
-  #topbar b { font-size: 16px; font-weight: 600; letter-spacing: -.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    padding: calc(28px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) 12px max(16px, env(safe-area-inset-left, 0px)); }   /* deutlich unter der Statusleiste, sonst verschwimmt der Titel */
+  #topbar b { font-size: 17px; font-weight: 600; letter-spacing: -.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .hud { top: 12px; }
   .head h1 { display: none; }   /* Titel steht am Handy schon in der Kopfzeile */
   #menuBtn { top: 12px !important; }
-  #panel { border-left: 0; border-top: 1px solid var(--line); max-height: 48vh; }
+  #panel { border-left: 0; border-top: 1px solid var(--line); max-height: 30vh; }   /* Modell am Handy etwa doppelt so hoch */
   #panel.closed { max-height: 0; padding-block: 0; overflow: hidden; }
   .hud { right: calc(max(12px, env(safe-area-inset-right, 0px)) + 66px); flex-wrap: wrap; }
   #varName { max-width: 100%; }
@@ -1772,7 +1773,7 @@ const CENTER = new THREE.Vector3(5.05, 0.4, 4.45);
 const BOUNDS = { x0: -0.75, x1: 10.95, z0: -0.55, z1: 9.55 };
 let activeView = null, anim = null;
 function viewPose(v, aspect) {
-  if (v.kind === 'iso') { const az = v.az * Math.PI / 180, el = 38 * Math.PI / 180, R = aspect < 1.2 ? 30 : aspect > 1.5 ? 18.5 : 23; return { cam: 'p', fov: 32, pos: new THREE.Vector3(CENTER.x + Math.sin(az) * Math.cos(el) * R, CENTER.y + Math.sin(el) * R, CENTER.z + Math.cos(az) * Math.cos(el) * R), target: CENTER.clone() }; }
+  if (v.kind === 'iso') { const az = v.az * Math.PI / 180, el = 38 * Math.PI / 180, R = aspect < 1.2 ? 25 : aspect > 1.5 ? 18.5 : 23; return { cam: 'p', fov: 32, pos: new THREE.Vector3(CENTER.x + Math.sin(az) * Math.cos(el) * R, CENTER.y + Math.sin(el) * R, CENTER.z + Math.cos(az) * Math.cos(el) * R), target: CENTER.clone() }; }
   if (v.kind === 'top') return { cam: 'o' };
   return { cam: 'p', fov: v.fov || 65, pos: new THREE.Vector3(...v.pos), target: new THREE.Vector3(...v.target) };
 }
