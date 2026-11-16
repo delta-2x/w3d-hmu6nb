@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#FAFBFA">
 <link rel="apple-touch-icon" href="icon-180.png">
 <meta http-equiv="Cache-Control" content="no-cache">
-<script>window.APP_VERSION='20261116203353';(function(){var busy=false;function check(){if(busy||document.visibilityState!=='visible')return;if(window.WOHNUNG&&window.WOHNUNG.vr&&window.WOHNUNG.vr.state&&window.WOHNUNG.vr.state.on)return;busy=true;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){busy=false;if(j&&j.v&&j.v!==window.APP_VERSION&&new URLSearchParams(location.search).get('v')!==j.v){location.replace(location.pathname+'?v='+j.v)}}).catch(function(){busy=false})}document.addEventListener('visibilitychange',check);window.addEventListener('pageshow',check);window.addEventListener('focus',check);setTimeout(check,1500)})();</script>
+<script>window.APP_VERSION='20261116203749';(function(){var busy=false;function check(){if(busy||document.visibilityState!=='visible')return;if(window.WOHNUNG&&window.WOHNUNG.vr&&window.WOHNUNG.vr.state&&window.WOHNUNG.vr.state.on)return;busy=true;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){busy=false;if(j&&j.v&&j.v!==window.APP_VERSION&&new URLSearchParams(location.search).get('v')!==j.v){location.replace(location.pathname+'?v='+j.v)}}).catch(function(){busy=false})}document.addEventListener('visibilitychange',check);window.addEventListener('pageshow',check);window.addEventListener('focus',check);setTimeout(check,1500)})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Wohnung 3D</title>
 <link rel="icon" href="data:,">
@@ -160,7 +160,7 @@ body.vr-b #app { grid-template-columns: 1fr !important; grid-template-rows: 1fr 
       <p class="note" id="dimsNote" hidden>Abstände in cm: Gehwege orange unter 80, rot unter 60, Spalte unter 25 grau. Möbel als Breite × Tiefe × Höhe, Räume innen. In Raumansichten nur der Raum, im Grundriss alles – zum Lesen hineinzoomen.</p>
       <label class="row" for="tLabels"><span>Raumnamen und Flächen</span><input type="checkbox" id="tLabels" checked></label>
       <input type="checkbox" id="tPlan" hidden>
-      <label class="row" for="tCut" title="Damit man von außen in die Räume sieht"><span>Wände auf 1,15 m schneiden</span><input type="checkbox" id="tCut" checked></label>
+      <input type="checkbox" id="tCut" checked hidden>
     </section>
     <section class="sec"><h2>Öffnen und bewegen</h2>
       <label class="row" for="tDoors" title="Badtür, Tür Extrazimmer, Tür Schlafzimmer, Schiebetür Abstellraum"><span>Zimmertüren offen</span><input type="checkbox" id="tDoors" checked></label>
