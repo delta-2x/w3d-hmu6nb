@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="apple-touch-icon" href="icon-180.png">
 <meta http-equiv="Cache-Control" content="no-cache">
-<script>window.APP_VERSION='20261122134531';(function(){var busy=false;function check(){if(busy||document.visibilityState!=='visible')return;if(window.WOHNUNG&&window.WOHNUNG.vr&&window.WOHNUNG.vr.state&&window.WOHNUNG.vr.state.on)return;busy=true;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){busy=false;if(j&&j.v&&j.v!==window.APP_VERSION&&new URLSearchParams(location.search).get('v')!==j.v){location.replace(location.pathname+'?v='+j.v)}}).catch(function(){busy=false})}document.addEventListener('visibilitychange',check);window.addEventListener('pageshow',check);window.addEventListener('focus',check);setTimeout(check,1500)})();</script>
+<script>window.APP_VERSION='20261122134738';(function(){var busy=false;function check(){if(busy||document.visibilityState!=='visible')return;if(window.WOHNUNG&&window.WOHNUNG.vr&&window.WOHNUNG.vr.state&&window.WOHNUNG.vr.state.on)return;busy=true;fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){busy=false;if(j&&j.v&&j.v!==window.APP_VERSION&&new URLSearchParams(location.search).get('v')!==j.v){location.replace(location.pathname+'?v='+j.v)}}).catch(function(){busy=false})}document.addEventListener('visibilitychange',check);window.addEventListener('pageshow',check);window.addEventListener('focus',check);setTimeout(check,1500)})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Wohnung 3D</title>
 <link rel="icon" href="data:,">
@@ -1135,7 +1135,7 @@ BUILD.kueche = (g, it) => {
   }
   const wt0 = X(0.60), wt1 = X(3.80); B(g, wt1 - wt0, 0.04, Dk + 0.02, M.worktop, (wt0 + wt1) / 2, fy, 0.01);
   B(g, 0.50, 0.004, 0.40, M.steel, X((p.spuele.von + p.spuele.bis) / 2), 0.908, 0.0, { cast: false });
-  { const fx = X((p.spuele.von + p.spuele.bis) / 2); CYL(g, 0.018, 0.022, 0.26, M.black, fx, 0.91, -0.24); const sp = CYL(g, 0.011, 0.011, 0.20, M.black, fx, 1.10, -0.15, { rx: Math.PI / 2 }); sp.position.y = 1.16; }
+  { const fx = X((p.spuele.von + p.spuele.bis) / 2); CYL(g, 0.018, 0.022, 0.26, M.steel, fx, 0.91, -0.24); const sp = CYL(g, 0.011, 0.011, 0.20, M.steel, fx, 1.10, -0.15, { rx: Math.PI / 2 }); sp.position.y = 1.16; }
   { const kx = X((p.kochfeld.von + p.kochfeld.bis) / 2), kw = p.kochfeld.bis - p.kochfeld.von; B(g, kw, 0.005, 0.52, M.glassBlack, kx, 0.909, 0.0, { cast: false }); if (p.kochfeld.abzug) B(g, 0.09, 0.003, 0.46, M.grill, kx, 0.913, 0, { cast: false }); }
   // Oberkästen gestuft (Runde 4): untere Reihe tL tief (Eichenrahmen, weiße Türen), obere Reihe tO tief (bündig mit Hochschränken)
   const zW = -Dk / 2, tL = p.oberTiefe, tO = p.oberTiefeOben || tL, yU = p.oberUnten, yT = p.oberTuer;
